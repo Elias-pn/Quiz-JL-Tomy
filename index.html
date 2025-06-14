@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Quiz JL Tomy</title>
+</head>
+<body>
+    <h1>Quiz spéciale JL Tomy</h1>
+
+    <div id="quiz-container">
+        <p id="question"></p>
+        <input type="text" id="answer" placeholder="Ta réponse ici" />
+        <button onclick="submitAnswer()">Valider</button>
+    </div>
+
+    <p id="result" style="font-weight: bold;"></p>
+
+    <script>
+        const questions = [
+            { question: "Quel est le vrai nom de JL Tomy ?", reponse: "thomas" },
+            { question: "Qui sont les meilleurs potes de JL Tomy ?", reponse: "eanot et fana" },
+            { question: "Quel âge a JL Tomy ? (23, 26, 27, 28)", reponse: "28" },
+            { question: "Quelle est la couleur préférée de JL Tomy ?", reponse: "rouge" }
+        ];
+
+        let score = 0;
+        let currentQuestionIndex = 0;
+
+        const questionEl = document.getElementById("question");
+        const answerEl = document.getElementById("answer");
+        const resultEl = document.getElementById("result");
+
+        // Affiche la question courante
+        function showQuestion() {
+            answerEl.value = "";
+            resultEl.textContent = "";
+            if(currentQuestionIndex < questions.length) {
+                questionEl.textContent = questions[currentQuestionIndex].question;
+            } else {
+                // Fin du quiz
+                questionEl.textContent = "Quiz terminé !";
+                answerEl.style.display = "none";
+                document.querySelector("button").style.display = "none";
+                resultEl.textContent = `Tu as eu ${score} bonne(s) réponse(s) sur ${questions.length}. Bravo !`;
+            }
+        }
+
+        // Vérifie la réponse et passe à la suivante
+        function submitAnswer() {
+            const userAnswer = answerEl.value.trim().toLowerCase();
+            const correctAnswer = questions[currentQuestionIndex].reponse.toLowerCase();
+
+            if(userAnswer === correctAnswer) {
+                score++;
+                resultEl.textContent = "Bonne réponse !";
+            } else {
+                resultEl.textContent = `Mauvaise réponse... La bonne réponse était : ${questions[currentQuestionIndex].reponse}`;
+            }
+
+            currentQuestionIndex++;
+            setTimeout(showQuestion, 1500);  // Attend 1.5s avant d'afficher la prochaine question
+        }
+
+        // Démarre le quiz
+        showQuestion();
+    </script>
+</body>
+</html>
